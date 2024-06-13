@@ -149,7 +149,16 @@ def autocorrect(typed_word, word_list, diff_function, limit):
     'testing'
     """
     # BEGIN PROBLEM 5
-    "*** YOUR CODE HERE ***"
+    corrected = ''
+    diff = limit + 1
+    for word in word_list:
+        if diff_function(typed_word,word, limit) < diff:
+            corrected = word
+            diff = diff_function(typed_word,word,limit)
+    if diff > limit:
+        return typed_word
+    else:
+        return corrected
     # END PROBLEM 5
 
 
@@ -176,7 +185,13 @@ def feline_fixes(typed, source, limit):
     5
     """
     # BEGIN PROBLEM 6
-    assert False, 'Remove this line'
+    diff = len(typed) - len(source)
+    if diff < 0:
+        diff = -1*diff
+    for i in range(len(typed)):
+        if typed[i] != source[i]:
+            diff += 1
+    return diff
     # END PROBLEM 6
 
 
@@ -200,22 +215,25 @@ def minimum_mewtations(typed, source, limit):
     >>> minimum_mewtations("ckiteus", "kittens", big_limit) # ckiteus -> kiteus -> kitteus -> kittens
     3
     """
-    assert False, 'Remove this line'
-    if ___________: # Base cases should go here, you may add more base cases as needed.
+    if typed == '':
         # BEGIN
-        "*** YOUR CODE HERE ***"
+        return len(source)
+    elif source == '':
+        return len(typed)
+    elif limit < 1:
+        return 1000
         # END
     # Recursive cases should go below here
-    if ___________: # Feel free to remove or add additional cases
+    if typed[0] == source[0]:
         # BEGIN
-        "*** YOUR CODE HERE ***"
+        return minimum_mewtations(typed[1:], source[1:], limit - 1)
         # END
     else:
-        add = ... # Fill in these lines
-        remove = ...
-        substitute = ...
         # BEGIN
-        "*** YOUR CODE HERE ***"
+        add = minimum_mewtations(typed[0:], source[1:], limit - 1) + 1
+        remove = minimum_mewtations(typed[1:], source[0:], limit - 1) + 1
+        substitute = minimum_mewtations(typed[1:], source[1:], limit - 1) + 1
+        return min(add, remove, substitute)
         # END
 
 
